@@ -1,0 +1,9 @@
+{
+  "building": 1,
+  "floor": 20,
+  "elevators": 4,
+  "elevatorCap": 10,
+  "floorTime": 1000,
+  "doorTime": 1000,
+  "idleTime": 10000
+}
