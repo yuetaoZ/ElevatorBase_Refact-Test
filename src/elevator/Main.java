@@ -1,4 +1,5 @@
 //add test comment from ray
+//add the second comment line
 package elevator;
 
 import gui.ElevatorDisplay;
