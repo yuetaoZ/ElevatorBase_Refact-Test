@@ -1,4 +1,4 @@
-// Try to see confilicts.
+// This time will try to merge without pull.
 
 package elevator;
 
