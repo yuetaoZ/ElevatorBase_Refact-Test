@@ -1,6 +1,4 @@
-//add test comment from ray
-//add the second comment line + yihang 
-// i am hungry
+// Try to see confilicts.
 
 package elevator;
 
