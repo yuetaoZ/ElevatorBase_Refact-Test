@@ -1,4 +1,3 @@
-// Try to see taoyue !!!!
 
 package elevator;
 
