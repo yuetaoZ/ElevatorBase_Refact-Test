@@ -58,28 +58,61 @@ public class Elevator implements Runnable{
         if (this.allStops.isEmpty() && this.toFloor.equals(1) && this.currFloor.equals(1)){
             return;
         }
-        if (this.currStatus.equals("UP")){
-            Integer preFloor = this.currFloor;
-            this.currFloor++;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.UP);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move up from floor " + preFloor + " to floor " + this.currFloor);
-        }else if (this.currStatus.equals("DOWN")){
-            Integer preFloor = this.currFloor;
-            this.currFloor--;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.DOWN);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-        }else{
-            Integer preFloor = this.currFloor;
-            this.currFloor--;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.IDLE);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-        }
+        //
+        move_aux();
+        
+        // **start
+//        if (this.currStatus.equals("UP")){
+//            Integer preFloor = this.currFloor;
+//            this.currFloor++;
+//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.UP);
+//            long t = new Date().getTime()-sTime.getTime();
+//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move up from floor " + preFloor + " to floor " + this.currFloor);
+//        }else if (this.currStatus.equals("DOWN")){
+//            Integer preFloor = this.currFloor;
+//            this.currFloor--;
+//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.DOWN);
+//            long t = new Date().getTime()-sTime.getTime();
+//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
+//        }else{
+//            Integer preFloor = this.currFloor;
+//            this.currFloor--;
+//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.IDLE);
+//            long t = new Date().getTime()-sTime.getTime();
+//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
+//        }
+        //**end
         Thread.sleep(this.floorSec);
     }
+    
+    // duplicated code fix
+    
+   private void move_aux() {
+	   long t = new Date().getTime()-sTime.getTime();
+	   String massage = convertSecondsToHMmSs(t)+": Elevator " + this.elevatorNUM;
+	   Direction cur; 
+	   if(this.currStatus.equals("UP")) {
+		   this.currFloor++;
+		   massage += " move up from floor ";
+		   cur = Direction.UP;
+	   }else {
+		   this.currFloor--;
+		   massage += " move down from floor ";
+		   if(this.currStatus.equals("DOWN")) {
+			   cur = Direction.DOWN;
+		   }else {
+			   cur = Direction.IDLE;
+		   }
+	   }
+	   getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, cur);
+	   massage += (Integer)this.currFloor + " to floor " +this.currFloor;
+	   System.out.println(massage);
+   }
 
+  // end here
+    
+    
+    
     private void setElevatorNum(){
         this.elevatorNUM = Elevator.NUM;
         Elevator.NUM++;
@@ -241,7 +274,7 @@ public class Elevator implements Runnable{
     public void run(){
         while(true){
             try{
-                move();
+                move();//
                 Thread.sleep(10);
             } catch (InterruptedException e){
                 e.printStackTrace();
