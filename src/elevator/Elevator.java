@@ -61,27 +61,7 @@ public class Elevator implements Runnable{
         // change here
         move_aux();
         
-        // **start
-//        if (this.currStatus.equals("UP")){
-//            Integer preFloor = this.currFloor;
-//            this.currFloor++;
-//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.UP);
-//            long t = new Date().getTime()-sTime.getTime();
-//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move up from floor " + preFloor + " to floor " + this.currFloor);
-//        }else if (this.currStatus.equals("DOWN")){
-//            Integer preFloor = this.currFloor;
-//            this.currFloor--;
-//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.DOWN);
-//            long t = new Date().getTime()-sTime.getTime();
-//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-//        }else{
-//            Integer preFloor = this.currFloor;
-//            this.currFloor--;
-//            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.IDLE);
-//            long t = new Date().getTime()-sTime.getTime();
-//            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-//        }
-        //**end
+
         Thread.sleep(this.floorSec);
     }
     
@@ -175,31 +155,7 @@ public class Elevator implements Runnable{
             t = new Date().getTime()-sTime.getTime();
             System.out.println(convertSecondsToHMmSs(t) + ": People " + p.peopleNUM + " exit elevator floor " + this.elevatorNUM);
         }
-        //**start
-//        List<People> allPeople1 = new ArrayList<>();
-//        for (People p1: this.waitList){
-//            if (p1.startFloor.equals(this.currFloor)){
-//                System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
-//                allPeople1.add(p1);
-//                this.currCapacity++;
-//                if (this.capacity > this.currCapacity) {
-//                    if (this.allStops.containsKey(p1.toFloor)) {
-//                        this.allStops.get(p1.toFloor).add(p1);
-//                    } else {
-//                        List<People> newPeople = new ArrayList<>();
-//                        newPeople.add(p1);
-//                        this.allStops.put(p1.toFloor, newPeople);
-//                        currDir();
-//                    }
-//                } else {
-//                    throw new InvalidParameterException("Elevator full, not allow to enter.");
-//                }
-//            }
-//        }
-//        for (People p1: allPeople1){
-//            this.waitList.remove(p1);
-//        }
-        //**end
+
         
         //change here
         	exit_waitlist_control(t);
