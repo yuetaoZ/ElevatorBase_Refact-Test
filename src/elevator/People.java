@@ -54,9 +54,10 @@ public class People {
     }
 
     private void setStartTime(Long sTime){
-        if (toFloor < 0){
-            throw new InvalidParameterException("Invalid floor number");
-        }
+// dead code found by Ray
+//        if (toFloor < 0){
+//            throw new InvalidParameterException("Invalid floor number");
+//        }
         this.startTime = sTime;
     }
 
