@@ -58,7 +58,7 @@ public class Elevator implements Runnable{
         if (this.allStops.isEmpty() && this.toFloor.equals(1) && this.currFloor.equals(1)){
             return;
         }
-        //
+        // change here
         move_aux();
         
         // **start
@@ -85,7 +85,7 @@ public class Elevator implements Runnable{
         Thread.sleep(this.floorSec);
     }
     
-    // duplicated code fix
+    // duplicated code fix, Extract Methods
     
    private void move_aux() {
 	   long t = new Date().getTime()-sTime.getTime();
@@ -175,29 +175,35 @@ public class Elevator implements Runnable{
             t = new Date().getTime()-sTime.getTime();
             System.out.println(convertSecondsToHMmSs(t) + ": People " + p.peopleNUM + " exit elevator floor " + this.elevatorNUM);
         }
-        List<People> allPeople1 = new ArrayList<>();
-        for (People p1: this.waitList){
-            if (p1.startFloor.equals(this.currFloor)){
-                System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
-                allPeople1.add(p1);
-                this.currCapacity++;
-                if (this.capacity > this.currCapacity) {
-                    if (this.allStops.containsKey(p1.toFloor)) {
-                        this.allStops.get(p1.toFloor).add(p1);
-                    } else {
-                        List<People> newPeople = new ArrayList<>();
-                        newPeople.add(p1);
-                        this.allStops.put(p1.toFloor, newPeople);
-                        currDir();
-                    }
-                } else {
-                    throw new InvalidParameterException("Elevator full, not allow to enter.");
-                }
-            }
-        }
-        for (People p1: allPeople1){
-            this.waitList.remove(p1);
-        }
+        //**start
+//        List<People> allPeople1 = new ArrayList<>();
+//        for (People p1: this.waitList){
+//            if (p1.startFloor.equals(this.currFloor)){
+//                System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
+//                allPeople1.add(p1);
+//                this.currCapacity++;
+//                if (this.capacity > this.currCapacity) {
+//                    if (this.allStops.containsKey(p1.toFloor)) {
+//                        this.allStops.get(p1.toFloor).add(p1);
+//                    } else {
+//                        List<People> newPeople = new ArrayList<>();
+//                        newPeople.add(p1);
+//                        this.allStops.put(p1.toFloor, newPeople);
+//                        currDir();
+//                    }
+//                } else {
+//                    throw new InvalidParameterException("Elevator full, not allow to enter.");
+//                }
+//            }
+//        }
+//        for (People p1: allPeople1){
+//            this.waitList.remove(p1);
+//        }
+        //**end
+        
+        //change here
+        	exit_waitlist_control(t);
+        //end
         getInstance().closeDoors(this.elevatorNUM);
         t = new Date().getTime()-sTime.getTime();
         System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " close door at floor " + this.currFloor);
@@ -213,6 +219,35 @@ public class Elevator implements Runnable{
         }
         return allPeople;
     }
+    // Large Method/Long Method 
+    // Extract method 
+    public void exit_waitlist_control(long t) {
+    	  List<People> allPeople1 = new ArrayList<>();
+          for (People p1: this.waitList){
+              if (p1.startFloor.equals(this.currFloor)){
+                  System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
+                  allPeople1.add(p1);
+                  this.currCapacity++;
+                  if (this.capacity > this.currCapacity) {
+                      if (this.allStops.containsKey(p1.toFloor)) {
+                          this.allStops.get(p1.toFloor).add(p1);
+                      } else {
+                          List<People> newPeople = new ArrayList<>();
+                          newPeople.add(p1);
+                          this.allStops.put(p1.toFloor, newPeople);
+                          currDir();
+                      }
+                  } else {
+                      throw new InvalidParameterException("Elevator full, not allow to enter.");
+                  }
+              }
+          }
+          for (People p1: allPeople1){
+              this.waitList.remove(p1);
+          }
+    }
+    //end here
+    
 
     public void addtoWaitList(People p){
         this.waitList.add(p);
