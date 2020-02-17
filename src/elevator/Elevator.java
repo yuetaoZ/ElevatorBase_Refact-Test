@@ -58,28 +58,41 @@ public class Elevator implements Runnable{
         if (this.allStops.isEmpty() && this.toFloor.equals(1) && this.currFloor.equals(1)){
             return;
         }
-        if (this.currStatus.equals("UP")){
-            Integer preFloor = this.currFloor;
-            this.currFloor++;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.UP);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move up from floor " + preFloor + " to floor " + this.currFloor);
-        }else if (this.currStatus.equals("DOWN")){
-            Integer preFloor = this.currFloor;
-            this.currFloor--;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.DOWN);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-        }else{
-            Integer preFloor = this.currFloor;
-            this.currFloor--;
-            getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, Direction.IDLE);
-            long t = new Date().getTime()-sTime.getTime();
-            System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " move down from floor " + preFloor + " to floor " + this.currFloor);
-        }
+        // change here
+        move_aux();
+        
+
         Thread.sleep(this.floorSec);
     }
+    
+    // duplicated code fix, Extract Methods
+    
+   private void move_aux() {
+	   long t = new Date().getTime()-sTime.getTime();
+	   String massage = convertSecondsToHMmSs(t)+": Elevator " + this.elevatorNUM;
+	   Direction cur; 
+	   if(this.currStatus.equals("UP")) {
+		   this.currFloor++;
+		   massage += " move up from floor ";
+		   cur = Direction.UP;
+	   }else {
+		   this.currFloor--;
+		   massage += " move down from floor ";
+		   if(this.currStatus.equals("DOWN")) {
+			   cur = Direction.DOWN;
+		   }else {
+			   cur = Direction.IDLE;
+		   }
+	   }
+	   getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, cur);
+	   massage += (Integer)this.currFloor + " to floor " +this.currFloor;
+	   System.out.println(massage);
+   }
 
+  // end here
+    
+    
+    
     private void setElevatorNum(){
         this.elevatorNUM = Elevator.NUM;
         Elevator.NUM++;
@@ -142,29 +155,11 @@ public class Elevator implements Runnable{
             t = new Date().getTime()-sTime.getTime();
             System.out.println(convertSecondsToHMmSs(t) + ": People " + p.peopleNUM + " exit elevator floor " + this.elevatorNUM);
         }
-        List<People> allPeople1 = new ArrayList<>();
-        for (People p1: this.waitList){
-            if (p1.startFloor.equals(this.currFloor)){
-                System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
-                allPeople1.add(p1);
-                this.currCapacity++;
-                if (this.capacity > this.currCapacity) {
-                    if (this.allStops.containsKey(p1.toFloor)) {
-                        this.allStops.get(p1.toFloor).add(p1);
-                    } else {
-                        List<People> newPeople = new ArrayList<>();
-                        newPeople.add(p1);
-                        this.allStops.put(p1.toFloor, newPeople);
-                        currDir();
-                    }
-                } else {
-                    throw new InvalidParameterException("Elevator full, not allow to enter.");
-                }
-            }
-        }
-        for (People p1: allPeople1){
-            this.waitList.remove(p1);
-        }
+
+        
+        //change here
+        	exit_waitlist_control(t);
+        //end
         getInstance().closeDoors(this.elevatorNUM);
         t = new Date().getTime()-sTime.getTime();
         System.out.println(convertSecondsToHMmSs(t) + ": Elevator " + this.elevatorNUM + " close door at floor " + this.currFloor);
@@ -180,6 +175,35 @@ public class Elevator implements Runnable{
         }
         return allPeople;
     }
+    // Large Method/Long Method 
+    // Extract method 
+    public void exit_waitlist_control(long t) {
+    	  List<People> allPeople1 = new ArrayList<>();
+          for (People p1: this.waitList){
+              if (p1.startFloor.equals(this.currFloor)){
+                  System.out.println(convertSecondsToHMmSs(t) + ": People " + p1.peopleNUM + " enter elevator floor " + this.elevatorNUM);
+                  allPeople1.add(p1);
+                  this.currCapacity++;
+                  if (this.capacity > this.currCapacity) {
+                      if (this.allStops.containsKey(p1.toFloor)) {
+                          this.allStops.get(p1.toFloor).add(p1);
+                      } else {
+                          List<People> newPeople = new ArrayList<>();
+                          newPeople.add(p1);
+                          this.allStops.put(p1.toFloor, newPeople);
+                          currDir();
+                      }
+                  } else {
+                      throw new InvalidParameterException("Elevator full, not allow to enter.");
+                  }
+              }
+          }
+          for (People p1: allPeople1){
+              this.waitList.remove(p1);
+          }
+    }
+    //end here
+    
 
     public void addtoWaitList(People p){
         this.waitList.add(p);
@@ -241,7 +265,7 @@ public class Elevator implements Runnable{
     public void run(){
         while(true){
             try{
-                move();
+                move();//
                 Thread.sleep(10);
             } catch (InterruptedException e){
                 e.printStackTrace();
