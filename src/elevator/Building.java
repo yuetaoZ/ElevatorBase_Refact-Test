@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Building {
     private Floor floor;
-    public List<Elevator> allElevator;
+    private List<Elevator> allElevator;
     private ElevatorController control;
 
     public Building(Integer numFloor, Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
@@ -28,5 +28,9 @@ public class Building {
             t.start();
             this.allElevator.add(e);
         }
+    }
+    
+    public List<Elevator> getElevators() {
+    	return allElevator;
     }
 }

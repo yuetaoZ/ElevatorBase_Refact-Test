@@ -21,6 +21,8 @@ public class Elevator implements Runnable{
     private Integer capacity;
     private Integer currCapacity;
     private Integer totalFloor;
+    private boolean up = false;
+    private boolean down = false;
     private long floorSec;
     private long doorSec;
     private long idleSec;
@@ -48,7 +50,7 @@ public class Elevator implements Runnable{
     private void move() throws InterruptedException{
 
         entryNewPeople();
-        currDir();
+        currDirection();
         // check if ppls need to exits
         if (this.allStops.containsKey(this.currFloor)){
             exitPeople();
@@ -97,51 +99,59 @@ public class Elevator implements Runnable{
         this.elevatorNUM = Elevator.NUM;
         Elevator.NUM++;
     }
-
-    private void currDir(){
-
+    
+    private void currDirection(){
         if (this.allStops.isEmpty() && this.toFloor.equals(1)){
             this.currStatus = "IDLE";
             getInstance().updateElevator(this.elevatorNUM, this.currFloor, this.currCapacity, Direction.IDLE);
-        }else{
-            boolean up = false;
-            boolean down = false;
-
-            if (!this.toFloor.equals(1)) {
-                if (this.toFloor > this.currFloor){
-                    up = true;
-                }else if (this.allStops.isEmpty()){
-                    down = true;
-                }else{
-                    this.toFloor = 1;
-                }
-            }
-            else{
-                for (Integer key : this.allStops.keySet()) {
-                    if (this.currFloor < key) {
-                        up = true;
-                    } else if (this.currFloor > key) {
-                        down = true;
-                    }
-                }
-            }
-            if (this.currFloor.equals(this.totalFloor)){
-                this.currStatus = "DOWN";
-            }else if (this.currFloor.equals(1)){
-                this.currStatus = "UP";
-            }else if ((this.currStatus.equals("UP") && up) || (this.currStatus.equals("DOWN") && down) || this.currStatus.equals("IDLE")){
-                // do nothing
-            }else{
-                if (this.currStatus.equals("UP")){
-                    this.currStatus = "DOWN";
-                }else{
-                    this.currStatus = "UP";
-                }
-            }
+        } else {
+            directionHelper();
+            updateStatus();
         }
     }
 
-    private List<People> exitPeople() throws InterruptedException{
+	private void directionHelper() {
+		up = false;
+        down = false;
+        
+    	if (!this.toFloor.equals(1)) {
+            if (this.toFloor > this.currFloor) {
+                up = true;
+            } else if (this.allStops.isEmpty()) {
+                down = true;
+            } else {
+                this.toFloor = 1;
+            }
+        } else {
+            for(Integer key : this.allStops.keySet()) {
+                if (this.currFloor < key) {
+                    up = true;
+                } else if (this.currFloor > key) {
+                    down = true;
+                }
+            }
+        }
+	}
+	
+	private void updateStatus() {
+		 if (this.currFloor.equals(this.totalFloor)) {
+             this.currStatus = "DOWN";
+         } else if (this.currFloor.equals(1)) {
+             this.currStatus = "UP";
+         } else if ((this.currStatus.equals("UP") && up) 
+        		 || (this.currStatus.equals("DOWN") && down) 
+        		 || this.currStatus.equals("IDLE")) {
+             // do nothing
+         } else {
+             if (this.currStatus.equals("UP")) {
+                 this.currStatus = "DOWN";
+             } else {
+                 this.currStatus = "UP";
+             }
+         }
+	}
+
+	private List<People> exitPeople() throws InterruptedException{
         long t;
         if (! this.allStops.containsKey(this.currFloor)){
             throw new InvalidParameterException("No people exit!");
@@ -191,7 +201,7 @@ public class Elevator implements Runnable{
                           List<People> newPeople = new ArrayList<>();
                           newPeople.add(p1);
                           this.allStops.put(p1.toFloor, newPeople);
-                          currDir();
+                          currDirection();
                       }
                   } else {
                       throw new InvalidParameterException("Elevator full, not allow to enter.");
@@ -227,7 +237,7 @@ public class Elevator implements Runnable{
                         List<People> newPeople = new ArrayList<>();
                         newPeople.add(p);
                         this.allStops.put(p.toFloor, newPeople);
-                        currDir();
+                        currDirection();
                     }
                 } else {
                     throw new InvalidParameterException("Elevator full, not allow to enter.");
@@ -271,5 +281,9 @@ public class Elevator implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+    
+    public long getFloorSec() {
+    	return floorSec;
     }
 }
