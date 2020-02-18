@@ -99,20 +99,18 @@ public class Elevator implements Runnable{
         this.elevatorNUM = Elevator.NUM;
         Elevator.NUM++;
     }
-
+    
     private void currDirection(){
         if (this.allStops.isEmpty() && this.toFloor.equals(1)){
             this.currStatus = "IDLE";
             getInstance().updateElevator(this.elevatorNUM, this.currFloor, this.currCapacity, Direction.IDLE);
         } else {
-            determineDirection();
+            directionHelper();
             updateStatus();
         }
     }
 
-    
-
-	private void determineDirection() {
+	private void directionHelper() {
 		up = false;
         down = false;
         
@@ -283,5 +281,9 @@ public class Elevator implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+    
+    public long getFloorSec() {
+    	return floorSec;
     }
 }
