@@ -54,7 +54,7 @@ public class People {
     }
 
     private void setStartTime(Long sTime){
-// dead code found by Ray
+// dead code found
 //        if (toFloor < 0){
 //            throw new InvalidParameterException("Invalid floor number");
 //        }
