@@ -1,8 +1,8 @@
-// Try to see taoyue !!!!
+// This time will try to merge without pull.
+
 
 package elevator;
 
-import gui.ElevatorDisplay;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,13 +10,10 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.*;
-import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static gui.ElevatorDisplay.Direction.*;
 
 
 public class Main {
@@ -34,13 +31,24 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Integer numFloor = 1;
+        Building building = getBuilding();
+
+        List<Elevator> elevators = building.getElevators();
+        
+        testElevators(elevators);
+
+    }
+
+
+	private static Building getBuilding() {
+		
+		Integer numFloor = 1;
         Integer numElevator = 1;
         Integer elevatorCap = 1;
         Long flrSec = 1000L;
         Long dorSec = 1000L;
         Long idleSec = 10000L;
-
+        
         JSONParser parser = new JSONParser();
         try {
 
@@ -61,14 +69,19 @@ public class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        
         Building building = new Building(numFloor, numElevator, elevatorCap, flrSec, dorSec, idleSec);
-        List<Elevator> e = building.allElevator;
-
-        Elevator e1 = e.get(0);
-        Elevator e2 = e.get(1);
-        Elevator e3 = e.get(2);
-        Elevator e4 = e.get(3);
+        
+		return building;
+		
+	}
+	
+	
+	private static void testElevators(List<Elevator> elevators) throws InterruptedException {
+		Elevator e1 = elevators.get(0);
+        Elevator e2 = elevators.get(1);
+        Elevator e3 = elevators.get(2);
+        Elevator e4 = elevators.get(3);
 
         People p1 = new People(1, 10, 0L);
         People p2 = new People(1, 20, 0L);
@@ -85,7 +98,7 @@ public class Main {
         System.out.println("Start TEST 1.....");
         sTime = new Date();
         e1.addtoWaitList(p1);
-        Thread.sleep(flrSec * 50);
+        Thread.sleep(e1.getFloorSec() * 50);
         System.out.println("End TEST 1......");
 
         // TEST 2
@@ -94,7 +107,7 @@ public class Main {
         e2.addtoWaitList(p2);
         e2.addtoWaitList(p3);
         e2.addtoWaitList(p4);
-        Thread.sleep(flrSec * 70);
+        Thread.sleep(e2.getFloorSec() * 70);
         System.out.println("End TEST 2......");
 
         // TEST 3
@@ -102,7 +115,7 @@ public class Main {
         sTime = new Date();
         e3.addtoWaitList(p5);
         e3.addtoWaitList(p6);
-        Thread.sleep(flrSec * 70);
+        Thread.sleep(e3.getFloorSec() * 70);
         System.out.println("End TEST 3......");
         // TEST 4
 
@@ -110,11 +123,11 @@ public class Main {
         sTime = new Date();
         e1.addtoWaitList(p7);
         e1.addtoWaitList(p8);
-        Thread.sleep(flrSec * 6);
+        Thread.sleep(e1.getFloorSec() * 6);
         e4.addtoWaitList(p9);
         e4.addtoWaitList(p10);
-        Thread.sleep(flrSec * 70);
+        Thread.sleep(e4.getFloorSec() * 70);
         System.out.println("End TEST 4......");
-
-    }
+		
+	}
 }
