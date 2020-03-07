@@ -9,15 +9,14 @@ import java.util.List;
 public class Building {
     private Floor floor;
     private List<Elevator> allElevator;
-    private ElevatorController control;
 
     public Building(Integer numFloor, Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
         this.floor = new Floor(numFloor);
         this.allElevator = new ArrayList<>();
-        setNumElevator(numElevator, elevatorCap, flrSec, dorSec, idleSec);
+        setNumOfElevator(numElevator, elevatorCap, flrSec, dorSec, idleSec);
     }
 
-    private void setNumElevator(Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
+    private void setNumOfElevator(Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
         if (numElevator <= 0 || elevatorCap <= 0 || flrSec <= 0){
             throw new InvalidParameterException("No people exit!");
         }

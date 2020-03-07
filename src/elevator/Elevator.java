@@ -14,10 +14,10 @@ import static gui.ElevatorDisplay.*;
 public class Elevator implements Runnable{
     private static Integer NUM = 1;
 
-    public String currStatus;
-    public Integer elevatorNUM;
-    public Integer currFloor;
-    public Integer toFloor;
+    private String currStatus;
+    private Integer elevatorNUM;
+    private Integer currFloor;
+    private Integer toFloor;
     private Integer capacity;
     private Integer currCapacity;
     private Integer totalFloor;
@@ -51,7 +51,7 @@ public class Elevator implements Runnable{
 
         entryNewPeople();
         currDirection();
-        // check if ppls need to exits
+        // check if people need to exits
         if (this.allStops.containsKey(this.currFloor)){
             exitPeople();
         }
