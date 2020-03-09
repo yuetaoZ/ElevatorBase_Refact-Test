@@ -67,7 +67,7 @@ public class Elevator implements Runnable{
         getInstance().addElevator(this.elevatorNUM, this.currFloor);
     }
 
-    private void move() throws InterruptedException{
+    public void move() throws InterruptedException{
 
         entryNewPeople();
         currDirection();
@@ -89,7 +89,7 @@ public class Elevator implements Runnable{
     
     // duplicated code fix, Extract Methods
     
-   private void move_aux() {
+   public void move_aux() {
 	   long t = new Date().getTime()-sTime.getTime();
 	   String massage = convertSecondsToHMmSs(t)+": Elevator " + this.elevatorNUM;
 	   Direction cur; 
@@ -115,12 +115,12 @@ public class Elevator implements Runnable{
     
     
     
-    private void setElevatorNum(){
+    public void setElevatorNum(){
         this.elevatorNUM = Elevator.NUM;
         Elevator.NUM++;
     }
     
-    private void currDirection(){
+    public void currDirection(){
         if (this.allStops.isEmpty() && this.toFloor.equals(1)){
             this.currStatus = "IDLE";
             getInstance().updateElevator(this.elevatorNUM, this.currFloor, this.currCapacity, Direction.IDLE);
@@ -130,7 +130,7 @@ public class Elevator implements Runnable{
         }
     }
 
-	private void directionHelper() {
+	public void directionHelper() {
 		up = false;
         down = false;
         
@@ -153,7 +153,7 @@ public class Elevator implements Runnable{
         }
 	}
 	
-	private void updateStatus() {
+	public void updateStatus() {
 		 if (this.currFloor.equals(this.totalFloor)) {
              this.currStatus = "DOWN";
          } else if (this.currFloor.equals(1)) {
@@ -171,7 +171,7 @@ public class Elevator implements Runnable{
          }
 	}
 
-	private List<People> exitPeople() throws InterruptedException{
+	public List<People> exitPeople() throws InterruptedException{
         long t;
         if (! this.allStops.containsKey(this.currFloor)){
             throw new InvalidParameterException("No people exit!");
@@ -239,7 +239,7 @@ public class Elevator implements Runnable{
         this.waitList.add(p);
     }
 
-    private void entryNewPeople() throws InterruptedException {
+    public void entryNewPeople() throws InterruptedException {
         boolean openDoor = false;
         List<People> allPeople = new ArrayList<>();
         if (this.waitList.isEmpty()){
