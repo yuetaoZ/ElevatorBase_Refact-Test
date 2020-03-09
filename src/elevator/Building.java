@@ -9,18 +9,16 @@ import java.util.List;
 public class Building {
     private Integer floor_num;
     private List<Elevator> allElevator;
-
 // 	seems like a dead field in this class
-//  private ElevatorController control;
-
+//    private ElevatorController control;
 
     public Building(Integer numFloor, Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
         setValidFloorNumber(numFloor);
         this.allElevator = new ArrayList<>();
-        setNumOfElevator(numElevator, elevatorCap, flrSec, dorSec, idleSec);
+        setNumElevator(numElevator, elevatorCap, flrSec, dorSec, idleSec);
     }
 
-    private void setNumOfElevator(Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
+    private void setNumElevator(Integer numElevator, Integer elevatorCap, Long flrSec, Long dorSec, Long idleSec) throws InvalidParameterException{
         if (numElevator <= 0 || elevatorCap <= 0 || flrSec <= 0){
             throw new InvalidParameterException("No people exit!");
         }
