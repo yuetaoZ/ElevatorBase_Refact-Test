@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Date;
 
 import static elevator.Main.sTime;
+import static elevator.Main.dateFormat;
 import static elevator.Main.convertSecondsToHMmSs;
 import static gui.ElevatorDisplay.*;
 
 public class Elevator implements Runnable{
     private static Integer NUM = 1;
 
-    private String currStatus;
-    private Integer elevatorNUM;
-    private Integer currFloor;
-    private Integer toFloor;
+    public String currStatus;
+    public Integer elevatorNUM;
+    public Integer currFloor;
+    public Integer toFloor;
     private Integer capacity;
     private Integer currCapacity;
     private Integer totalFloor;
@@ -50,7 +51,7 @@ public class Elevator implements Runnable{
 
         entryNewPeople();
         currDirection();
-        // check if people need to exits
+        // check if ppls need to exits
         if (this.allStops.containsKey(this.currFloor)){
             exitPeople();
         }
@@ -86,7 +87,7 @@ public class Elevator implements Runnable{
 		   }
 	   }
 	   getInstance().updateElevator(this.elevatorNUM,this.currFloor,this.currCapacity, cur);
-	   massage += this.currFloor + " to floor " +this.currFloor;
+	   massage += (Integer)this.currFloor + " to floor " +this.currFloor;
 	   System.out.println(massage);
    }
 

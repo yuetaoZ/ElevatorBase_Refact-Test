@@ -9,8 +9,6 @@ import static gui.ElevatorDisplay.Direction.IDLE;
 import static gui.ElevatorDisplay.Direction.UP;
 import java.awt.Color;
 
-import javax.swing.SwingConstants;
-
 /**
  *
  * @author hieldc
@@ -98,7 +96,7 @@ public class ElevatorPanel extends javax.swing.JPanel {
         jSlider1.setMajorTickSpacing(1);
         jSlider1.setMaximum(1);
         jSlider1.setMinimum(1);
-        jSlider1.setOrientation(SwingConstants.VERTICAL);
+        jSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setEnabled(false);
