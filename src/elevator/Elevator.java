@@ -14,10 +14,10 @@ import static gui.ElevatorDisplay.*;
 public class Elevator implements Runnable{
     private static Integer NUM = 1;
 
-    public String currStatus;
-    public Integer elevatorNUM;
-    public Integer currFloor;
-    public Integer toFloor;
+    private String currStatus;
+    private Integer elevatorNUM;
+    private Integer currFloor;
+    private Integer toFloor;
     private Integer capacity;
     private Integer currCapacity;
     private Integer totalFloor;
@@ -28,8 +28,28 @@ public class Elevator implements Runnable{
     private long idleSec;
     private List<People> waitList;
     private HashMap<Integer, List<People>> allStops;
+    
+    public HashMap<Integer, List<People>> getAllStops() {
+    	return allStops;
+    }
+    
+    public Integer getCurrFloor() {
+    	return currFloor;
+    }
+    
+    public Integer getToFloor() {
+    	return toFloor;
+    }
+    
+    public String getCurrStatus() {
+    	return currStatus;
+    }
+    
+    public Integer getCurrCapacity() {
+    	return currCapacity;
+    }
 
-    public Elevator(Integer cap, Integer totalFloor, long flrSec, long dorSec, long idleSec) throws InvalidParameterException
+    Elevator(Integer cap, Integer totalFloor, long flrSec, long dorSec, long idleSec) throws InvalidParameterException
     {
 
         setElevatorNum();
