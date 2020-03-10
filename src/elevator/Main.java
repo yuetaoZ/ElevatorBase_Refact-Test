@@ -39,8 +39,8 @@ public class Main {
 
     }
 
-
-	private static Building getBuilding() {
+// used to be private
+	public static Building getBuilding() {
 		
 		Integer numFloor = 1;
         Integer numElevator = 1;

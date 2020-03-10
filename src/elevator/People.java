@@ -44,6 +44,7 @@ public class People {
     private void setPeopleNum(){
         this.peopleNUM = People.NUM;
         People.NUM++;
+        
     }
 
     private void setToFloor(Integer tFloor){
