@@ -13,10 +13,10 @@ public class MainTest {
 		assertEquals("00:04:00",Main.convertSecondsToHMmSs(240000));
 	}
 	
-	@Test
-	public void testgetBuilding() throws InterruptedException {
-		Main.main(null);
-	//	assertNotNull(Main.sTime);
-	}
+//	@Test
+//	public void testgetBuilding() throws InterruptedException {
+//		Main.main(null);
+//	//	assertNotNull(Main.sTime);
+//	}
 
 }
