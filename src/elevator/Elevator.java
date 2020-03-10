@@ -48,6 +48,10 @@ public class Elevator implements Runnable{
     public Integer getCurrCapacity() {
     	return currCapacity;
     }
+    
+    public int getwaitList_size() {// added to test_exitPeople
+    	return waitList.size();
+    }
 
     Elevator(Integer cap, Integer totalFloor, long flrSec, long dorSec, long idleSec) throws InvalidParameterException
     {
